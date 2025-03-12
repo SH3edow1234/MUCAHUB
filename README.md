@@ -32,18 +32,10 @@ if player then
         local mainFrame = Instance.new("Frame")
         mainFrame.Parent = screenGui
         mainFrame.Size = UDim2.new(0, 300, 0, 400)
-        mainFrame.Position = UDim2.new(0.05, 0, 0.05, 0)
-        mainFrame.BackgroundColor3 = Color3.new(0, 0, 0)
-        mainFrame.BorderColor3 = Color3.new(1, 0, 0)
-        mainFrame.BorderSizePixel = 2
-
-        -- Imagem de fundo neon vermelha
-        local backgroundImage = Instance.new("ImageLabel")
-        backgroundImage.Parent = mainFrame
-        backgroundImage.Size = UDim2.new(1, 0, 1, 0)
-        backgroundImage.BackgroundTransparency = 1
-        backgroundImage.Image = "rbxassetid://YOUR_NEON_RED_IMAGE_ID_HERE" -- Substitua pelo seu ID de imagem
-        backgroundImage.ZIndex = 0
+        mainFrame.Position = UDim2.new(0, 0, 0, 0) -- Canto esquerdo da tela
+        mainFrame.BackgroundColor3 = Color3.new(0.1, 0.1, 0.1) -- Fundo escuro
+        mainFrame.BorderColor3 = Color3.new(0.2, 0.2, 0.2)
+        mainFrame.BorderSizePixel = 1
 
         -- Título
         local titleLabel = Instance.new("TextLabel")
@@ -51,162 +43,67 @@ if player then
         titleLabel.Size = UDim2.new(1, 0, 0, 30)
         titleLabel.Position = UDim2.new(0, 0, 0, 0)
         titleLabel.BackgroundTransparency = 1
-        titleLabel.Text = "Painel de Hacks"
-        titleLabel.TextColor3 = Color3.new(1, 0, 0)
+        titleLabel.Text = "MKHUB" -- Novo título
+        titleLabel.TextColor3 = Color3.new(1, 1, 1)
         titleLabel.Font = Enum.Font.SciFi
         titleLabel.TextScaled = true
 
-        -- Variáveis de estado
-        local teleportEnabled = false
-        local flyEnabled = false
-        local autoFarmEnabled = false
-        local autoFarmChestEnabled = false
-        local autoFarmLevelEnabled = false
-        local autoRaidEnabled = false
-        local autoFruitEnabled = false
-
-        -- Funções de ativação/desativação
-        local function toggleTeleport()
-            teleportEnabled = not teleportEnabled
-            if teleportButton then
-                teleportButton.Text = teleportEnabled and "Teleporte: Ligado (Teleporta para ilha aleatória)" or "Teleporte: Desligado"
-            end
+        -- Estilo dos botões
+        local function createStyledButton(parent, position, size, text, connectFunction)
+            local button = Instance.new("TextButton")
+            button.Parent = parent
+            button.Position = position
+            button.Size = size
+            button.BackgroundColor3 = Color3.new(0.2, 0.2, 0.2)
+            button.TextColor3 = Color3.new(1, 1, 1)
+            button.Font = Enum.Font.SciFi
+            button.Text = text
+            button.TextXAlignment = Enum.TextXAlignment.Left
+            button.TextYAlignment = Enum.TextYAlignment.Center
+            button.MouseButton1Click:Connect(connectFunction)
+            return button
         end
 
-        local function toggleFly()
-            flyEnabled = not flyEnabled
-            if flyButton then
-                flyButton.Text = flyEnabled and "Voar: Ligado (Permite voar)" or "Voar: Desligado"
-            end
-            if flyEnabled then
-                enableFlyMode()
-            else
-                disableFlyMode()
-            end
+        -- Botões da barra lateral
+        local sidebarButtons = {
+            { text = "Farm", position = UDim2.new(0, 0, 0.1, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Sea-Farm", position = UDim2.new(0, 0, 0.2, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Combat", position = UDim2.new(0, 0, 0.3, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Visuals", position = UDim2.new(0, 0, 0.4, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Trigger-Bot", position = UDim2.new(0, 0, 0.5, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Status", position = UDim2.new(0, 0, 0.6, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Shop", position = UDim2.new(0, 0, 0.7, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Movement", position = UDim2.new(0, 0, 0.8, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Teleports", position = UDim2.new(0, 0, 0.9, 0), size = UDim2.new(0, 80, 0, 30) },
+            { text = "Misc", position = UDim2.new(0, 0, 1, 0), size = UDim2.new(0, 80, 0, 30) }
+        }
+
+        for _, buttonData in ipairs(sidebarButtons) do
+            createStyledButton(mainFrame, buttonData.position, buttonData.size, buttonData.text, function()
+                -- Adicione aqui a lógica para cada botão da barra lateral
+                print("Botão " .. buttonData.text .. " clicado.")
+            end)
         end
 
-        local function toggleAutoFarm()
-            autoFarmEnabled = not autoFarmEnabled
-            if autoFarmButton then
-                autoFarmButton.Text = autoFarmEnabled and "Auto Farm: Ligado" or "Auto Farm: Desligado"
-            end
-            if autoFarmEnabled then
-                startAutoFarm()
-            else
-                stopAutoFarm()
-            end
+        -- Rótulos e botões principais
+        local function createLabel(parent, position, size, text)
+            local label = Instance.new("TextLabel")
+            label.Parent = parent
+            label.Position = position
+            label.Size = size
+            label.BackgroundTransparency = 1
+            label.TextColor3 = Color3.new(1, 1, 1)
+            label.Font = Enum.Font.SciFi
+            label.Text = text
+            label.TextXAlignment = Enum.TextXAlignment.Left
+            return label
         end
 
-        local function toggleAutoFarmChest()
-            autoFarmChestEnabled = not autoFarmChestEnabled
-            if autoFarmChestButton then
-                autoFarmChestButton.Text = autoFarmChestEnabled and "Auto Farm Baú: Ligado" or "Auto Farm Baú: Desligado"
-            end
-            if autoFarmChestEnabled then
-                startAutoFarmChest()
-            else
-                stopAutoFarmChest()
-            end
-        end
-
-        local function toggleAutoFarmLevel()
-            autoFarmLevelEnabled = not autoFarmLevelEnabled
-            if autoFarmLevelButton then
-                autoFarmLevelButton.Text = autoFarmLevelEnabled and "Auto Farm Nível: Ligado" or "Auto Farm Nível: Desligado"
-            end
-            if autoFarmLevelEnabled then
-                startAutoFarmLevel()
-            else
-                stopAutoFarmLevel()
-            end
-        end
-
-        local function toggleAutoRaid()
-            autoRaidEnabled = not autoRaidEnabled
-            if autoRaidButton then
-                autoRaidButton.Text = autoRaidEnabled and "Auto Raid: Ligado" or "Auto Raid: Desligado"
-            end
-            if autoRaidEnabled then
-                startAutoRaid()
-            else
-                stopAutoRaid()
-            end
-        end
-
-        local function toggleAutoFruit()
-            autoFruitEnabled = not autoFruitEnabled
-            if autoFruitButton then
-                autoFruitButton.Text = autoFruitEnabled and "Auto Fruta: Ligado" or "Auto Fruta: Desligado"
-            end
-            if autoFruitEnabled then
-                startAutoFruit()
-            else
-                stopAutoFruit()
-            end
-        end
-
-        -- Funções de teletransporte e voo (mantidas do script anterior)
-        local function teleportToRandomIsland()
-            if teleportEnabled then
-                -- ... (código de teletransporte para ilha aleatória)
-                print("Teletransportando para ilha aleatória...")
-            end
-        end
-
-        local function enableFlyMode()
-            -- ... (código de voo)
-            print("Modo de voo ativado.")
-        end
-
-        local function disableFlyMode()
-            -- ... (código de não voo)
-            print("Modo de voo desativado.")
-        end
-
-        -- Funções de autofarm (exemplos básicos)
-        local function startAutoFarm()
-            -- ... (código para atacar NPCs automaticamente)
-            print("Auto farm iniciado.")
-        end
-
-        local function stopAutoFarm()
-            -- ... (código para parar o autofarm)
-            print("Auto farm parado.")
-        end
-
-        local function startAutoFarmChest()
-            -- ... (código para coletar baús automaticamente)
-            print("Auto farm de baú iniciado.")
-        end
-
-        local function stopAutoFarmChest()
-            -- ... (código para parar o autofarm de baú)
-            print("Auto farm de baú parado.")
-        end
-
-        local function startAutoFarmLevel()
-            -- ... (código para farmar nível automaticamente)
-            print("Auto farm de nível iniciado.")
-        end
-
-        local function stopAutoFarmLevel()
-            -- ... (código para parar o autofarm de nível)
-            print("Auto farm de nível parado.")
-        end
-
-        local function startAutoRaid()
-            -- ... (código para iniciar raids automaticamente)
-            print("Auto raid iniciado.")
-        end
-
-        local function stopAutoRaid()
-            -- ... (código para parar o auto raid)
-            print("Auto raid parado.")
-        end
-
-        local function startAutoFruit()
-            -- ... (código para pegar frutas automaticamente)
-            print("Auto fruta iniciado.")
-        end
-
-        local function stopAutoFruit()
+        local farmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.1, 0), UDim2.new(0, 150, 0, 30), "Farm")
+        local autoFarmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.2, 0), UDim2.new(0, 150, 0, 30), "Auto Farm")
+        local guiButtonLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.3, 0), UDim2.new(0, 150, 0, 30), "GUI Button")
+        local levelFarmQuestLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.4, 0), UDim2.new(0, 150, 0, 30), "Level Farm Quest")
+        local levelFarmNoQuestLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.5, 0), UDim2.new(0, 150, 0, 30), "Level Farm No Quest")
+        local nearestFarmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.6, 0), UDim2.new(0, 150, 0, 30), "Nearest Farm")
+        local selectedFarmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.7, 0), UDim2.new(0, 150, 0, 30), "Selected Farm")
+        local selectMonsterLabel = createLabel(main
