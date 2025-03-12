@@ -106,4 +106,5 @@ if player then
         local levelFarmNoQuestLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.5, 0), UDim2.new(0, 150, 0, 30), "Level Farm No Quest")
         local nearestFarmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.6, 0), UDim2.new(0, 150, 0, 30), "Nearest Farm")
         local selectedFarmLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.7, 0), UDim2.new(0, 150, 0, 30), "Selected Farm")
-        local selectMonsterLabel = createLabel(main
+        local selectMonsterLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.8, 0), UDim2.new(0, 150, 0, 30), "Select Monster")
+        local autoFarmSelectMonsterQuestLabel = createLabel(mainFrame, UDim2.new(0.3, 0, 0.9, 0), UDim2.new(0, 250, 0, 30), "Auto Farm Select Monster (
