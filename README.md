@@ -68,12 +68,16 @@ if player then
         -- Funções de ativação/desativação
         local function toggleTeleport()
             teleportEnabled = not teleportEnabled
-            teleportButton.Text = teleportEnabled and "Teleporte: Ligado (Teleporta para ilha aleatória)" or "Teleporte: Desligado"
+            if teleportButton then
+                teleportButton.Text = teleportEnabled and "Teleporte: Ligado (Teleporta para ilha aleatória)" or "Teleporte: Desligado"
+            end
         end
 
         local function toggleFly()
             flyEnabled = not flyEnabled
-            flyButton.Text = flyEnabled and "Voar: Ligado (Permite voar)" or "Voar: Desligado"
+            if flyButton then
+                flyButton.Text = flyEnabled and "Voar: Ligado (Permite voar)" or "Voar: Desligado"
+            end
             if flyEnabled then
                 enableFlyMode()
             else
@@ -83,7 +87,9 @@ if player then
 
         local function toggleAutoFarm()
             autoFarmEnabled = not autoFarmEnabled
-            autoFarmButton.Text = autoFarmEnabled and "Auto Farm: Ligado" or "Auto Farm: Desligado"
+            if autoFarmButton then
+                autoFarmButton.Text = autoFarmEnabled and "Auto Farm: Ligado" or "Auto Farm: Desligado"
+            end
             if autoFarmEnabled then
                 startAutoFarm()
             else
@@ -93,7 +99,9 @@ if player then
 
         local function toggleAutoFarmChest()
             autoFarmChestEnabled = not autoFarmChestEnabled
-            autoFarmChestButton.Text = autoFarmChestEnabled and "Auto Farm Baú: Ligado" or "Auto Farm Baú: Desligado"
+            if autoFarmChestButton then
+                autoFarmChestButton.Text = autoFarmChestEnabled and "Auto Farm Baú: Ligado" or "Auto Farm Baú: Desligado"
+            end
             if autoFarmChestEnabled then
                 startAutoFarmChest()
             else
@@ -103,7 +111,9 @@ if player then
 
         local function toggleAutoFarmLevel()
             autoFarmLevelEnabled = not autoFarmLevelEnabled
-            autoFarmLevelButton.Text = autoFarmLevelEnabled and "Auto Farm Nível: Ligado" or "Auto Farm Nível: Desligado"
+            if autoFarmLevelButton then
+                autoFarmLevelButton.Text = autoFarmLevelEnabled and "Auto Farm Nível: Ligado" or "Auto Farm Nível: Desligado"
+            end
             if autoFarmLevelEnabled then
                 startAutoFarmLevel()
             else
@@ -113,7 +123,9 @@ if player then
 
         local function toggleAutoRaid()
             autoRaidEnabled = not autoRaidEnabled
-            autoRaidButton.Text = autoRaidEnabled and "Auto Raid: Ligado" or "Auto Raid: Desligado"
+            if autoRaidButton then
+                autoRaidButton.Text = autoRaidEnabled and "Auto Raid: Ligado" or "Auto Raid: Desligado"
+            end
             if autoRaidEnabled then
                 startAutoRaid()
             else
@@ -123,7 +135,9 @@ if player then
 
         local function toggleAutoFruit()
             autoFruitEnabled = not autoFruitEnabled
-            autoFruitButton.Text = autoFruitEnabled and "Auto Fruta: Ligado" or "Auto Fruta: Desligado"
+            if autoFruitButton then
+                autoFruitButton.Text = autoFruitEnabled and "Auto Fruta: Ligado" or "Auto Fruta: Desligado"
+            end
             if autoFruitEnabled then
                 startAutoFruit()
             else
@@ -196,13 +210,3 @@ if player then
         end
 
         local function stopAutoFruit()
-            -- ... (código para parar o auto fruta)
-            print("Auto fruta parado.")
-        end
-
-        -- Botões
-        local teleportButton = createStyledButton(mainFrame, UDim2.new(0.1, 0, 0.1, 0), "Teleporte: Desligado", function() toggleTeleport(); teleportToRandomIsland() end)
-        local flyButton = createStyledButton(mainFrame, UDim2.new(0.1, 0, 0.2, 0), "Voar: Desligado", toggleFly)
-        local autoFarmButton = createStyledButton(mainFrame, UDim2.new(0.1, 0, 0.3, 0), "Auto Farm: Desligado", toggleAutoFarm)
-        local autoFarmChestButton = createStyledButton(mainFrame, UDim2.new(0.1, 0, 0.4, 0), "Auto Baú: Desligado", toggleAutoFarmChest)
-        local autoFarmLevelButton = createStyled
